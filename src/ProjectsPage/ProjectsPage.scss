@@ -1,0 +1,129 @@
+@import "../_variables.scss";
+
+.projectsPage{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    row-gap: 2rem;
+    column-gap: 2rem;
+
+    &-header{
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: $dark;
+        @media(min-width: 768px){
+            padding: 1rem 5rem 1rem 5rem;
+        }
+        &__h1{
+            margin: 0;
+            // margin: 0 60vw 0 0;
+            @include underline;
+            @media(min-width: 576px){
+                margin-right: 36vw;
+            }
+            @media(min-width: 992px){
+                margin-right: 50vw;
+            }
+            @media(min-width: 1200px){
+                margin-right: 60vw;
+            }
+        }
+        &__createButton{
+            @include button
+        }
+        &__deleteButton{
+            @include button($color: rgb(255, 97, 97));
+        }
+
+        &-modal{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow:   auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+
+            &-content{
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-between;
+                align-items: center;
+                row-gap: 1rem;
+                column-gap: 1rem;
+                background-color: $darker;
+                margin: 10rem 10% 0 10%; /* 15% from the top and centered */
+                padding: 1rem;
+                border: 2px solid $dark;
+                border-radius: 10px;
+                box-sizing: border-box;
+                width: 80%; /* Could be more or less, depending on screen size */
+
+                &__heading{
+                    width: 100%;
+                    padding: 0.5rem;
+                    font-size: 1.3rem;
+                    color: white;
+                    background-color: $dark;
+                    border: none;
+                }
+
+                &__description{
+                    font: inherit;
+                    color: white;
+                    padding: 0.5rem;
+                    background-color: $dark;
+                    resize: none;
+                    border: none;
+                    width: 100%;
+                    height: 8rem;
+                }
+
+                &__cancel{
+                    @include button2($borderColor: red);
+                }
+                &__done{
+                    @include button2($borderColor: lightgreen);
+                }
+
+
+            }
+        }
+    };
+
+    &-project{
+        background-color: $dark;
+        border: 2px solid $lighter;
+        border-radius: 5px;
+        width: 80%;
+        padding: 1rem;
+        box-sizing: border-box;
+        
+        &__heading{
+            @include underline($color: $light, $initWidth: 0%);
+            width: fit-content;
+        }
+
+        a{
+            width: fit-content;
+        }
+
+        &__description{
+            margin-top: 1rem;
+        }
+
+        @media(min-width: 768px){
+            width: 40%;
+        }
+        @media(min-width: 1200px){
+            width: 30%;
+        }
+    }
+}

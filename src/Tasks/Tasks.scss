@@ -1,0 +1,272 @@
+@import "../_variables.scss";
+
+.tasks{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    row-gap: 3rem;
+
+    &-header{
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: $dark;
+        @media(min-width: 768px){
+            padding: 1rem 5rem 1rem 5rem;
+        }
+        &__h2{
+            margin: 0;
+            cursor: pointer;
+            @include underline
+        }
+
+        &-searchForm{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+
+            @media(min-width: 992px){
+                width: 18rem;
+                height: 80%;
+            }
+
+            &__input{
+                border: 2px solid $light;
+                border-right: 0;
+                border-bottom-left-radius: 15px;
+                border-top-left-radius: 15px;
+                width: 100%;
+                padding-left: 0.5rem;
+                font: inherit;
+            }
+
+            &__button{
+                border: 2px solid $light;
+                border-left: 0;
+                background-color: $dark;
+                color: inherit;
+                font: inherit;
+                border-bottom-right-radius: 15px;
+                border-top-right-radius: 15px;
+            }
+        }
+
+        &__createButton{
+            @include button
+        }
+
+        &-modal{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow:   auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+
+            &-content{
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-between;
+                align-items: center;
+                row-gap: 1rem;
+                column-gap: 1rem;
+                background-color: $darker;
+                margin: 20% 10% 0 10%; /* 15% from the top and centered */
+                padding: 1rem;
+                border: 2px solid $dark;
+                border-radius: 10px;
+                box-sizing: border-box;
+                width: 80%; /* Could be more or less, depending on screen size */
+
+                &-top{
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 1px solid $light;
+                    p{
+                        margin: 0;
+                    }
+
+                    &__priorityMenu{
+                        position: relative;
+                        &:hover{
+                            .tasks-header-modal-content-top__priorityMenu__content{
+                                display: flex;
+                            }
+                        }
+                        &__button{
+                            background-color: $dark;
+                            border: none;
+                            padding: 0.3rem 0.6rem;
+                            color: white;
+                            font-size: 1.2rem;
+                        }
+                        &__content{
+                            font-size: 1.2rem;
+                            display: none;
+                            align-items: center;
+                            flex-flow: column nowrap;
+                            position: absolute;
+                            background-color: $dark;
+                            width: 1.55rem;
+                            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                            z-index: 1;
+                            a{
+                                width: 100%;
+                                text-align: center;
+                                color: white;
+                                text-decoration: none;
+                                display: block;
+                                &:hover{
+                                    background-color: $light;
+                                }
+                            }
+                        }
+                    }
+                    // &__taskNum___input{
+                    //     font: inherit;
+                    //     color: white;
+                    //     background-color: $dark;
+                    //     border: $primary;
+                    //     border-radius: 1px;
+                    //     height: fit-content;
+                    //     width: 2rem;
+                    //     &::placeholder{
+                    //         color: rgba(255, 255, 255, 0.3);
+                    //     }
+                    // }
+                }
+
+                &-dates{
+                    // display: flex;
+                    // flex-flow: row nowrap;
+                    // align-items: center;
+                    // width: 100%;
+                    input{
+                        border: none;
+                        border-radius: 5px;
+                        font: inherit;
+                        color-scheme: dark;
+                        padding: 0.3rem;
+                        font-size: 0.8rem;
+                    }
+                }
+
+                // &__heading{
+                //     margin: 0;
+                //     width: 100%;
+                // }
+
+                &__heading{
+                    width: 100%;
+                    padding: 0.5rem;
+                    font-size: 1.3rem;
+                    color: white;
+                    background-color: $dark;
+                    border: none;
+                    
+                }
+
+                // &__description{
+                //     margin: 0;
+                //     width: 100%;
+                // }
+
+                &__description{
+                    font: inherit;
+                    color: white;
+                    padding: 0.5rem;
+                    background-color: $dark;
+                    resize: none;
+                    border: none;
+                    width: 100%;
+                    height: 8rem;
+                }
+
+                &__file{
+                    // @include button2
+                    @include button
+                }
+
+                &__file_input{
+                    display: none;
+                }
+
+                &__fileName{
+                    margin: 0;
+                    width: 50%;
+                    height: fit-content;
+                }
+
+                &__subTask{
+                    // @include button2($borderColor: $light)
+                    @include button
+                }
+
+                &__cancel{
+                    @include button2($borderColor: red);
+                }
+                &__done{
+                    @include button2($borderColor: lightgreen);
+                }
+
+
+            }
+        }
+    }
+
+    &-column{
+        width: 80%;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        border-radius: 10px;
+        border-left: 2px solid $primary;
+        border-right: 2px solid $primary;
+        padding: 1rem;
+        box-sizing: border-box;
+        row-gap: 2rem;
+
+        @media(min-width: 768px){
+            width: 30%;
+        }
+
+        &__heading{
+            margin: 1rem 0 1rem 0;
+            width: fit-content;
+        }
+
+        &-task{
+            width: 90%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            background-color: $dark;
+            border: 2px solid $lighter;
+            border-radius: 15px;
+            padding: 0.5rem;
+            &__name{
+                margin: 0;
+            }
+            &-buttons{
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                column-gap: 0.5rem;
+                p{
+                    margin: 0;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

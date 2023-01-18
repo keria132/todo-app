@@ -1,0 +1,78 @@
+
+//COLORS
+
+// $grey-1: #212529;
+// $grey-2: #343A40;
+// $grey-3: #495057;
+// $grey-4: #6C757D;
+// $grey-5: #ADB5BD;
+
+// $blue-1: #5FA8D3;
+// $blue-2: #05B2DC;
+// $blue-3: #CAE9FF;
+
+
+// $green-1: #64DFDF;
+// $green-2: #72EFDD;
+// $green-3: #80FFDB;
+
+$darker: #2D3142;
+$dark: #4F5D75;
+$primary: #BFC0C0;
+$light: #5FA8D3;
+$lighter: #CAE9FF;
+$orange: #ef8354;
+
+$highPriority: #dc3545;
+$mediumPriority: #ffc107;
+$lowPriority: $lighter;
+
+//222 303030
+
+
+//MIXINS
+
+@mixin button($color: $light){
+    font: inherit;
+    border-radius: 5px;
+    color: white;
+    background-color: $color;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    &:active{
+        border: 2px solid $lighter;
+    }
+}
+
+@mixin button2($color: $dark, $borderColor: $orange){
+    font: inherit;
+    color: white;
+    background-color: $color;
+    border:  1px solid $borderColor;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+@mixin input(){
+    
+}
+
+@mixin underline($color: $orange, $initWidth: 40%){
+    margin-bottom: 0;
+    &:hover:after{
+        width: 80%;
+    }
+    &:after{
+        content: '';
+        display: block;
+        margin-top: 0.3rem;
+        height: 0.3rem;
+        width: $initWidth;
+        border-radius: 10px;
+        background-color: $color;
+        transition: width 1s;
+    }
+}
