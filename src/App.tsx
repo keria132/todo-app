@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter , BrowserRouter, Routes, Route } from "react-router-dom";
 import ProjectsPage from "./ProjectsPage/ProjectsPage"
-import Tasks from './Tasks/Tasks';
+import TaskList from './Tasks/TaskList';
 import NoPage from './NoPage';
 import { connect } from "react-redux";
 
@@ -11,7 +11,7 @@ function App() {
         <Routes>
             <Route path="">
                 <Route index element={<ProjectsPage />} />
-                <Route path="/tasks/:projectIndex" element={<Tasks />} />
+                <Route path="/tasks/:projectIndex" element={<TaskList />} />
                 <Route path="*" element={<NoPage />} />
             </Route>
         </Routes>

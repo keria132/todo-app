@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Link } from "react-router-dom"
-import './ProjectsPage.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { addProject } from '../redux/actions/addProject'
 import { deleteProjects } from '../redux/actions/deleteProjects'
 import { AnyAction } from "redux"
+import './ProjectsPage.scss'
 
 //TYPES
 
