@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { addTask } from '../redux/actions/addTask';
 import { deleteTask } from '../redux/actions/deleteTask';
+import { editTask } from '../redux/actions/editTask';
 import "./TaskList.scss";
 
 //TYPES
@@ -36,6 +37,7 @@ function TaskList(){
     const dispatch = useDispatch();
     const projectsStore: Project[] = useSelector((state: any) => state).todos.projects
     console.log("Projects from Redux state: ", projectsStore)
+    console.log("Projects from localstore: ", JSON.parse(localStorage.getItem('projects')!))
 
     if(projectIndex === undefined){
         throw new Error("Project index is undefined!")
@@ -45,6 +47,8 @@ function TaskList(){
 
     function handleNewTask(e: Event){
         const target = e.target as HTMLButtonElement;
+        const action = target.getAttribute("action");
+        const taskIndex = editTaskModal.current!.getAttribute("data-taskIndex")
         //Check if heading and description input fields are not empty
         if((target.parentElement!.children[2] as HTMLInputElement).value == ''){
             (target.parentElement!.children[2] as HTMLInputElement).style.border = "1px solid red";
@@ -72,16 +76,35 @@ function TaskList(){
             taskStatus: "Queue"
         }
 
-        //Save new task in localstore
-        projectsStore[projectIndex].tasks.push(newTask);
-        localStorage.setItem('projects', JSON.stringify(projectsStore));
-        console.log("-ADD- New task list from store: ", projectsStore[projectIndex].tasks);
+        if(action == "add"){
+            dispatch(addTask({
+                taskProjectIndex: projectIndex,
+                task: newTask
+            }))
+        }else{
+            dispatch(editTask({
+                taskProjectIndex: projectIndex,
+                task: newTask,
+                taskIndex: taskIndex
+            }))
+        }
+        
+    }
 
-        dispatch(addTask({
-            taskProjectIndex: projectIndex,
-            task: newTask
-        }))
-        // setTasks([...tasks, newTask])
+    function handleEditTask(e: Event){
+        const target = e.target as HTMLParagraphElement;
+        const taskIndex = Number(target.parentElement!.parentElement!.getAttribute("data-index")!);
+        const date = new Date(taskList[taskIndex].taskStartDate);
+        const formatDate = date.getFullYear() + "-" + (date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-" + date.getDate()
+        editTaskModal.current!.children[0].children[0].children[1].children[0].innerHTML = taskList[taskIndex].taskPriority;
+        (editTaskModal.current!.children[0].children[1].children[1] as HTMLInputElement).value = formatDate;
+        (editTaskModal.current!.children[0].children[2] as HTMLInputElement).value = taskList[taskIndex].taskHeading;
+        editTaskModal.current!.children[0].children[3].innerHTML = taskList[taskIndex].taskDescription;
+        editTaskModal.current!.children[0].children[9].setAttribute("action", "edit");
+        editTaskModal.current!.setAttribute("data-taskIndex", String(taskIndex))
+        editTaskModal.current!.style.display = "block";
+        
+        // console.log(editTaskModal.current!.children[0].children[9])
     }
 
     function handleDeleteTask(e: Event){
@@ -93,16 +116,12 @@ function TaskList(){
             }
             return true
         })
-        //Delete task in localstore
-        projectsStore[projectIndex].tasks = newTaskList;
-        localStorage.setItem('projects', JSON.stringify(projectsStore));
-        console.log("-DELETE- New task list from store: ", projectsStore[projectIndex].tasks);
+        console.log("new tasklist", newTaskList)
         //Delete task from Redux store
         dispatch(deleteTask({
             taskProjectIndex: projectIndex,
             taskIndex: taskIndex
         }))
-        // setTasks(newTaskList);
     }
 
     return(
@@ -117,6 +136,8 @@ function TaskList(){
                 </form>
 
                 <button className='tasks-header__createButton' onClick={() => {
+                    console.log("Open task modal");
+                    editTaskModal.current!.children[0].children[9].setAttribute("action", "add");
                     editTaskModal.current!.style.display = "block";
                 }}>
                     Create task
@@ -128,9 +149,10 @@ function TaskList(){
             <div className="tasks-column tasks-queue">
                 <h2 className="tasks-column__heading">Queue:</h2>
 
-                {taskList.map((task: Task, index: number) => 
-                    <Task key={index} taskIndex={index} taskHeading={task.taskHeading} taskPriority={task.taskPriority} deleteTask={handleDeleteTask}/>
-                )}
+                {taskList.map((task: Task, index: number) => {
+                    // console.log(taskList);
+                    return <Task key={index} taskIndex={index} taskHeading={task.taskHeading} taskPriority={task.taskPriority} deleteTask={handleDeleteTask} editTask={handleEditTask}/>
+                })}
             </div>
 
             <div className="tasks-column tasks-development">
@@ -147,16 +169,14 @@ function TaskList(){
     )
 }
 
-const Task = (props: { taskIndex: number, taskHeading: string, taskPriority: string, deleteTask: (e: any) => void }) => {
+const Task = (props: { taskIndex: number, taskHeading: string, taskPriority: string, deleteTask: (e: any) => void, editTask: (e: any) => void }) => {
 
     return (
         <div className="tasks-column-task" data-index={props.taskIndex}>
             <h3 className="tasks-column-task__name">{props.taskHeading}</h3>
             <div className='tasks-column-task-buttons'>
                 <p className="tasks-column-task-buttons__priority">{props.taskPriority}</p>
-                <p className="tasks-column-task-buttons__edit" onClick={() => {
-                    // modal.current!.style.display = "block"
-                }} style={{color: "lightgreen"}}>&#9998;</p>
+                <p className="tasks-column-task-buttons__edit" onClick={(e) => {props.editTask(e)}} style={{color: "lightgreen"}}>&#9998;</p>
                 <p onClick={(e) => {props.deleteTask(e)}} style={{color: "red"}}>&#10006;</p>
             </div>
         </div>
@@ -164,7 +184,6 @@ const Task = (props: { taskIndex: number, taskHeading: string, taskPriority: str
 }
 //props: {newTask: (e: any) => void}, modalRef
 const TaskModal = forwardRef<HTMLDivElement, {newTask: (e: any) => void, taskList: Task[]}>((props, ref) => {
-    console.log((ref as any).current)
     return(
         <div className="tasks-header-modal" ref={ref}>
 
@@ -240,6 +259,8 @@ const TaskModal = forwardRef<HTMLDivElement, {newTask: (e: any) => void, taskLis
         </div>
     )
 })
+
+
 
 
 export default TaskList

@@ -30,7 +30,7 @@ type Task = {
 function Projects(){
 
     //REDUX
-    console.log(useSelector((state: any) => state))
+    console.log("Redux state: ", useSelector((state: any) => state))
     const dispatch = useDispatch();
     const savedProjects = useSelector((state: any) => state.todos.projects)
     
@@ -148,88 +148,3 @@ function Projects(){
 
 
 export default Projects
-
-
-//EXISTING TASK MODAL
-
-/*<div className="projectsPage-header-modal">
-                    <div className="projectsPage-header-modal-content">
-
-                        <div className="projectsPage-header-modal-content-top">
-                            <p className="projectsPage-header-modal-content-top__taskNum">№1</p>
-                            <p className="projectsPage-header-modal-content-top__devTime">2 days</p>
-                            <p className="projectsPage-header-modal-content-top__status">In development</p>
-                            <p className="projectsPage-header-modal-content-top__priority">!!</p>
-                        </div>
-
-                        <p className="projectsPage-header-modal-content__date">16.12.2022 - 20.12.2022</p>
-                       
-                        <h2 className="projectsPage-header-modal-content__heading">Task header</h2>
-
-                        {/* <p className="projectsPage-header-modal-content__description">
-                            Some long-ass dexcription bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-                            bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-                        </p>
-
-                        <textarea>
-                            
-                        </textarea>
-
-                        <button className="projectsPage-header-modal-content__file">Add file</button>
-                        <p className="projectsPage-header-modal-content__fileName">goToWork.exe</p>
-
-                        <button className="projectsPage-header-modal-content__subTask">Add subtask</button>
-
-                        <button className="projectsPage-header-modal-content__cancel" onClick={(e) => {
-                            const target = e.target as HTMLButtonElement;
-                            target.parentElement!.parentElement!.style.display = "none"
-                        }}>
-                            {/* &times;
-                            Cancel
-                        </button>
-
-                        <button className="projectsPage-header-modal-content__done">Done</button>
-                    </div>
-                </div>*/
-
-
-
-//CREATE TASK MODAL
-
-/*<div className="projectsPage-header-modal-content-top">
-                            <p className="projectsPage-header-modal-content-top__taskNum">№1</p>
-                            <div className="projectsPage-header-modal-content-top__priorityMenu">
-                                <button className="projectsPage-header-modal-content-top__priorityMenu__button">!</button>
-                                <div className="projectsPage-header-modal-content-top__priorityMenu__content">
-                                    <a href="">!</a>
-                                    <a href="">!!</a>
-                                    <a href="">!!!</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <input className="projectsPage-header-modal-content__heading" type="text" />
-
-                        <textarea className="projectsPage-header-modal-content__description">
-
-                        </textarea>
-
-                        <input className="projectsPage-header-modal-content__file_input" type="file"></input>
-                        <button className="projectsPage-header-modal-content__file" onClick={(e) => {
-                            const target = e.target as HTMLButtonElement;
-                            (target.parentElement!.children[3] as HTMLElement).click()
-                        }}>Add file</button>
-
-                        <p className="projectsPage-header-modal-content__fileName">goToWork.exe</p>
-
-                        <button className="projectsPage-header-modal-content__subTask">Add subtask</button>
-
-                        <button className="projectsPage-header-modal-content__cancel" onClick={(e) => {
-                            const target = e.target as HTMLButtonElement;
-                            target.parentElement!.parentElement!.style.display = "none"
-                        }}>
-                            {/* &times; 
-                            Cancel
-                        </button>
-
-                        <button className="projectsPage-header-modal-content__done">Done</button> */
